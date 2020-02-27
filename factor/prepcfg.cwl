@@ -10,8 +10,8 @@ inputs:
   outdir: string
   ppath: string
   wpath: string
-#  ms_ready: File
-
+  ms_ready: File
+  
 arguments:
  - prefix: -c
    valueFrom: |

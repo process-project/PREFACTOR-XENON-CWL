@@ -23,7 +23,7 @@ arguments:
                '^! prefactor_directory.+': '! prefactor_directory = $(inputs.ppath)',
                '^! losoto_directory.+': '! losoto_directory = /opt/lofar/losoto',
                '^! aoflagger.+': '! aoflagger = /opt/lofar/aoflagger/bin/aoflagger',
-               '^! max_dppp_threads.+': '! max_dppp_threads = 10'
+               '^! max_dppp_threads.+': '! max_dppp_threads = 2'
     }
     psfile = "Pre-Facet-Calibrator.parset"
     srcfile = "$(inputs.ppath)" + "/" + psfile

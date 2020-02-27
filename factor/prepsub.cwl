@@ -19,9 +19,11 @@ arguments:
     import os
     import json
     SUB_MAP = {'^! data_input_path.+': '! data_input_path = $(inputs.outdir)'+ "/Pre-Facet-Target/results",
-               '^! data_input_pattern.+': '! data_input_pattern = L' + "$(inputs.obs)" + '*.precal.ms',
+               '^! data_input_pattern.+': '! data_input_pattern = L' + "$(inputs.obs)" + '*.pre-cal.ms',
                '^! prefactor_directory.+': '! prefactor_directory = $(inputs.ppath)',
-               '^! wsclean_executable.+': '! wsclean_executable = /opt/lofar/wsclean/bin/wsclean'
+               '^! wsclean_executable.+': '! wsclean_executable = /opt/lofar/wsclean/bin/wsclean',
+               '^! max_dppp_threads.+': '! max_dppp_threads = 2',
+               '^! nbands_image.+': '! nbands_image = 6'
     }
     psfile = "Initial-Subtract.parset"
     srcfile = "$(inputs.ppath)" + "/" + psfile

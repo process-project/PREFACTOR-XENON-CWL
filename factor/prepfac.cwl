@@ -20,8 +20,9 @@ arguments:
     FAC_MAP = {'^dir_working.+': 'dir_working = $(inputs.wpath)/factor',
               '^dir_ms.+': 'dir_ms = $(inputs.facin)/Pre-Facet-Target/results',
                '^# clusterdesc_file.*': "clusterdesc_file = $(inputs.wms)",
-               '^\[ms1\.ms\].*': '#[ms1.ms]',
-               '^\[ms2.ms\].*': '#[ms2.ms]'
+               '^# ndir_max = .*': 'ndir_max = 10',
+               '^\\[ms1\\.ms\\]\\s*': '#[ms1.ms]\\n',
+               '^\\[ms2\\.ms\\]\\s*': '#[ms2.ms]\\n'
     }
     dstfile = "$(inputs.wpath)" + "/factor.parset"
     with open("$(inputs.src)", "r") as reader:

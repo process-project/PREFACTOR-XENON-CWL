@@ -31,10 +31,13 @@ arguments:
         var cr = "mkdir -p ";
         var dp = inputs["wpath"].concat("/factor");
         var cd = " && cd "
-        var rc = ' && singularity exec -B inputs["shared"] inputs["cimage"] runfactor -v  inputs["parset"]'
+        var bdd = inputs["shared"].concat(" ")
+        var img = inputs["cimage"].concat(" ")
+        var pst = inputs["parset"]
+        var sgp = " && singularity exec -B "
+        var rc = sgp.concat(bdd, img, "runfactor -v ", pst)
         var res = cr.concat(dp, cd, dp, rc)
         return res;
       }
-
 
 
