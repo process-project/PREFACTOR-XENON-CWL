@@ -19,8 +19,7 @@ arguments:
     import json
     FAC_MAP = {'^dir_working.+': 'dir_working = $(inputs.wpath)/factor',
               '^dir_ms.+': 'dir_ms = $(inputs.facin)/Pre-Facet-Target/results',
-               '^# clusterdesc_file.*': "clusterdesc_file = $(inputs.wms)",
-               '^# ndir_max = .*': 'ndir_max = 10',
+               '^#\\s*ndir_max = .*': 'ndir_max = 10',
                '^\\[ms1\\.ms\\]\\s*': '#[ms1.ms]\\n',
                '^\\[ms2\\.ms\\]\\s*': '#[ms2.ms]\\n'
     }
