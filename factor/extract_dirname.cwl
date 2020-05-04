@@ -13,8 +13,7 @@ stdout: out.txt
 inputs: []
 
 outputs:
-  ms_dirname:
-    type: string
+  ms_dirname: string
     outputBinding:
       glob: out.txt
       loadContents: true

@@ -3,6 +3,9 @@
 cwlVersion: v1.0
 class: CommandLineTool
 
+requirements:
+  InlineJavascriptRequirement: {}
+
 baseCommand: python
 
 inputs:

@@ -3,12 +3,13 @@
 cwlVersion: v1.0
 class: CommandLineTool
 
+requirements:
+  InlineJavascriptRequirement: {}
+
 baseCommand: python
 
 inputs:
   tarms: string
-  templatedir: string
-  prefactor: string
   workdir: string
   res2: string
 
@@ -21,13 +22,13 @@ arguments:
     subindir = "$(inputs.workdir)" + "/prefactor_output"
     SUB_MAP = {'^! data_input_path.+': '! data_input_path = ' + subindir + "/Pre-Facet-Target/results",
                '^! data_input_pattern.+': '! data_input_pattern = L' + "$(inputs.tarms)" + '*.pre-cal.ms',
-               '^! prefactor_directory.+': '! prefactor_directory = $(inputs.prefactor)',
+               '^! prefactor_directory.+': '! prefactor_directory = /opt/lofar/prefactor',
                '^! wsclean_executable.+': '! wsclean_executable = /opt/lofar/wsclean/bin/wsclean',
                '^! max_dppp_threads.+': '! max_dppp_threads = 2',
                '^! nbands_image.+': '! nbands_image = 4'
     }
     psfile = "Initial-Subtract.parset"
-    srcfile = "$(inputs.templatedir)" + "/" + psfile
+    srcfile = "/opt/lofar/templates/" + psfile
     dstfile = "$(inputs.workdir)" + "/" + psfile
     with open(srcfile, "r") as reader:
         lines = reader.readlines()

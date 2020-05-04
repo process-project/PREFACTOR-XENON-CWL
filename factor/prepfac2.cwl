@@ -6,26 +6,24 @@ class: CommandLineTool
 baseCommand: python
 
 inputs:
-  templatedir: string
-  factordir: string
-  workdir: string
+  src: string
+  facin: string
+  wpath: string
   wms: string
-  res3: string
 
 arguments:
  - prefix: -c
    valueFrom: |
     import re
     import json
-    facin = "$(inputs.workdir)" + "/prefactor_output"
-    FAC_MAP = {'^dir_working.+': 'dir_working = $(inputs.factordir)',
-              '^dir_ms.+': 'dir_ms = ' + facin + '/Pre-Facet-Target/results',
+    FAC_MAP = {'^dir_working.+': 'dir_working = $(inputs.wpath)/factor',
+              '^dir_ms.+': 'dir_ms = $(inputs.facin)/Pre-Facet-Target/results',
+               '^#\\s*ndir_max = .*': 'ndir_max = 30',
                '^\\[ms1\\.ms\\]\\s*': '#[ms1.ms]\\n',
                '^\\[ms2\\.ms\\]\\s*': '#[ms2.ms]\\n'
     }
-    dstfile = "$(inputs.workdir)" + "/factor.parset"
-    srcfile = "$(inputs.templatedir)" + "/factor.parset"
-    with open(srcfile, "r") as reader:
+    dstfile = "$(inputs.wpath)" + "/factor.parset"
+    with open("$(inputs.src)", "r") as reader:
         lines = reader.readlines()
     with open(dstfile, "w") as writer:
         for line in lines:

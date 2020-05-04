@@ -6,26 +6,23 @@ class: CommandLineTool
 baseCommand: python
 
 inputs:
-  templatedir: string
-  prefactor: string
-  workdir: string
-  cal_ready: File
-  tar_ready: File
-  dir_ready: File
+  src: string
+  outdir: string
+  ppath: string
+  wpath: string
+  
 arguments:
  - prefix: -c
    valueFrom: |
     import re
     import os
     import json
-    outdir = "$(inputs.workdir)" + "/prefactor_output"
-    CFG_MAP = {'^runtime_directory.+': 'runtime_directory = ' + outdir,
-              '^working_directory.+': 'working_directory = ' + outdir,
-               '<PREFACTOR_PATH>': "$(inputs.prefactor)"
+    CFG_MAP = {'^runtime_directory.+': 'runtime_directory = $(inputs.outdir)',
+              '^working_directory.+': 'working_directory = $(inputs.outdir)',
+               '<PREFACTOR_PATH>': "$(inputs.ppath)"
     }
-    dstfile = "$(inputs.workdir)" + "/pipeline.cfg"
-    srcfile = "$(inputs.templatedir)" + "/pipeline.cfg"
-    with open(srcfile, "r") as reader:
+    dstfile = "$(inputs.wpath)" + "/pipeline.cfg"
+    with open("$(inputs.src)", "r") as reader:
         lines = reader.readlines()
     with open(dstfile, "w") as writer:
         for line in lines:

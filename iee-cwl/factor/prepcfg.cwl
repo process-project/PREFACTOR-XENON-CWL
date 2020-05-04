@@ -3,11 +3,12 @@
 cwlVersion: v1.0
 class: CommandLineTool
 
+requirements:
+  InlineJavascriptRequirement: {}
+
 baseCommand: python
 
 inputs:
-  templatedir: string
-  prefactor: string
   workdir: string
   cal_ready: File
   tar_ready: File
@@ -20,11 +21,10 @@ arguments:
     import json
     outdir = "$(inputs.workdir)" + "/prefactor_output"
     CFG_MAP = {'^runtime_directory.+': 'runtime_directory = ' + outdir,
-              '^working_directory.+': 'working_directory = ' + outdir,
-               '<PREFACTOR_PATH>': "$(inputs.prefactor)"
+              '^working_directory.+': 'working_directory = ' + outdir
     }
     dstfile = "$(inputs.workdir)" + "/pipeline.cfg"
-    srcfile = "$(inputs.templatedir)" + "/pipeline.cfg"
+    srcfile = "/opt/lofar/templates/pipeline.cfg"
     with open(srcfile, "r") as reader:
         lines = reader.readlines()
     with open(dstfile, "w") as writer:

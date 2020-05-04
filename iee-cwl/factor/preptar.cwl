@@ -3,13 +3,14 @@
 cwlVersion: v1.0
 class: CommandLineTool
 
+requirements:
+  InlineJavascriptRequirement: {}
+
 baseCommand: python
 
 inputs:
   tarms: string
-  templatedir: string
   datadir: string
-  prefactor: string
   workdir: string
   res1: string
 
@@ -22,13 +23,13 @@ arguments:
     tardir = "$(inputs.datadir)" + "/data/L" + "$(inputs.tarms)"
     TAR_MAP = {'^! target_input_path.+': '! target_input_path = ' + tardir,
                '^! target_input_pattern.+': '! target_input_pattern = L' + "$(inputs.tarms)" + '_SB*.MS',
-               '^! prefactor_directory.+': '! prefactor_directory = $(inputs.prefactor)',
+               '^! prefactor_directory.+': '! prefactor_directory = /opt/lofar/prefactor',
                '^! losoto_directory.+': '! losoto_directory = /opt/lofar/losoto',
                '^! aoflagger.+': '! aoflagger = /opt/lofar/aoflagger/bin/aoflagger',
                '^! max_dppp_threads.+': '! max_dppp_threads = 2'
     }
     psfile = "Pre-Facet-Target.parset"
-    srcfile = "$(inputs.templatedir)" + "/" + psfile
+    srcfile = "/opt/lofar/templates/" + psfile
     dstfile = "$(inputs.workdir)" + "/" + psfile
     with open(srcfile, "r") as reader:
         lines = reader.readlines()

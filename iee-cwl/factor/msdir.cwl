@@ -11,10 +11,11 @@ baseCommand: bash
 stdout: out.txt
 
 inputs:
-  ms_dirname: string
+  obsms: string
+  datadir: string
 
 outputs:
-  ms_done:
+  ms_ok:
     type: File
     streamable: true
     outputBinding:
@@ -25,11 +26,10 @@ arguments:
     valueFrom: |
       ${
         var cr = "mkdir -p ";
-        var dp = "/var/scratch/madougou/LOFAR/PROCESS/".concat(inputs["ms_dirname"]);
-        var lc = " && for file in /var/scratch/madougou/LOFAR/*.tar; do tar xf \"$file\" -C "
+        var indir = inputs["datadir"]
+        var dp = indir.concat("/data/L", inputs["obsms"]);
+        var lc = " && for file in ".concat(indir, "/L", inputs["obsms"], "*.tar; do tar xf \"$file\" -C ")
         var rc = " && rm \"$file\"; done"
         var res = cr.concat(dp, lc, dp, rc)
         return res;
       }
-
-

@@ -6,10 +6,11 @@ class: CommandLineTool
 baseCommand: python
 
 inputs:
-  obs: string
-  dpath: string
-  ppath: string
-  wpath: string
+  calms: string
+  templatedir: string
+  datadir: string
+  prefactor: string
+  workdir: string
   cfg_file: string
 
 arguments:
@@ -18,16 +19,18 @@ arguments:
     import re
     import os
     import json
-    CAL_MAP = {'^! cal_input_path.+': '! cal_input_path = $(inputs.dpath)'+ "/LC2_038_SASid_232873",
-               '^! cal_input_pattern.+': '! cal_input_pattern = L232873_SB*.MS',
-               '^! prefactor_directory.+': '! prefactor_directory = $(inputs.ppath)',
+    caldir = "$(inputs.datadir)" + "/data/L" + "$(inputs.calms)"
+    mspattern = "L" + "$(inputs.calms)" + "_SB*.MS"
+    CAL_MAP = {'^! cal_input_path.+': '! cal_input_path = ' + caldir,
+               '^! cal_input_pattern.+': '! cal_input_pattern = ' + mspattern,
+               '^! prefactor_directory.+': '! prefactor_directory = $(inputs.prefactor)',
                '^! losoto_directory.+': '! losoto_directory = /opt/lofar/losoto',
                '^! aoflagger.+': '! aoflagger = /opt/lofar/aoflagger/bin/aoflagger',
                '^! max_dppp_threads.+': '! max_dppp_threads = 2'
     }
     psfile = "Pre-Facet-Calibrator.parset"
-    srcfile = "$(inputs.ppath)" + "/" + psfile
-    dstfile = "$(inputs.wpath)" + "/" + psfile
+    srcfile = "$(inputs.templatedir)" + "/" + psfile
+    dstfile = "$(inputs.workdir)" + "/" + psfile
     with open(srcfile, "r") as reader:
         lines = reader.readlines()
     with open(dstfile, "w") as writer:

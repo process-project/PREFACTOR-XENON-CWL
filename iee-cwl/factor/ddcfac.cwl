@@ -7,15 +7,12 @@ requirements:
   InlineJavascriptRequirement: {}
 
 baseCommand: bash
-#baseCommand: echo
 
 stdout: fac.txt
 
 inputs:
   factordir: string
   parset: string
-  cimage: string
-  binddir: string
 
 outputs:
   all_done:
@@ -31,11 +28,9 @@ arguments:
         var cr = "mkdir -p ";
         var dp = inputs["factordir"];
         var cd = " && cd "
-        var bdd = inputs["binddir"].concat(" ")
-        var img = inputs["cimage"].concat(" ")
         var pst = inputs["parset"]
-        var sgp = " && singularity exec -B "
-        var rc = sgp.concat(bdd, img, "runfactor -v ", pst)
+        var sgp = " && runfactor -v "
+        var rc = sgp.concat(pst)
         var res = cr.concat(dp, cd, dp, rc)
         return res;
       }

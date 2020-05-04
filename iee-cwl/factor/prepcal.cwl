@@ -3,15 +3,16 @@
 cwlVersion: v1.0
 class: CommandLineTool
 
+requirements:
+  InlineJavascriptRequirement: {}
+
 baseCommand: python
 
 inputs:
-  tarms: string
-  templatedir: string
+  calms: string
   datadir: string
-  prefactor: string
   workdir: string
-  res1: string
+  cfg_file: string
 
 arguments:
  - prefix: -c
@@ -19,31 +20,33 @@ arguments:
     import re
     import os
     import json
-    tardir = "$(inputs.datadir)" + "/data/L" + "$(inputs.tarms)"
-    TAR_MAP = {'^! target_input_path.+': '! target_input_path = ' + tardir,
-               '^! target_input_pattern.+': '! target_input_pattern = L' + "$(inputs.tarms)" + '_SB*.MS',
-               '^! prefactor_directory.+': '! prefactor_directory = $(inputs.prefactor)',
+    caldir = "$(inputs.datadir)" + "/data/L" + "$(inputs.calms)"
+    mspattern = "L" + "$(inputs.calms)" + "_SB*.MS"
+    CAL_MAP = {'^! cal_input_path.+': '! cal_input_path = ' + caldir,
+               '^! cal_input_pattern.+': '! cal_input_pattern = ' + mspattern,
+               '^! prefactor_directory.+': '! prefactor_directory = /opt/lofar/prefactor',
                '^! losoto_directory.+': '! losoto_directory = /opt/lofar/losoto',
                '^! aoflagger.+': '! aoflagger = /opt/lofar/aoflagger/bin/aoflagger',
                '^! max_dppp_threads.+': '! max_dppp_threads = 2'
     }
-    psfile = "Pre-Facet-Target.parset"
-    srcfile = "$(inputs.templatedir)" + "/" + psfile
+    psfile = "Pre-Facet-Calibrator.parset"
+    srcfile = "/opt/lofar/templates/" + psfile
     dstfile = "$(inputs.workdir)" + "/" + psfile
     with open(srcfile, "r") as reader:
         lines = reader.readlines()
     with open(dstfile, "w") as writer:
         for line in lines:
             mf = False
-            for ptn in TAR_MAP:
+            for ptn in CAL_MAP:
                 if re.search(ptn, line):
                     mf = True
-                    writer.write(re.sub(ptn, TAR_MAP[ptn], line))
+                    writer.write(re.sub(ptn, CAL_MAP[ptn], line))
             if not mf:
                 writer.write(line)
     with open("cwl.output.json", "w") as output:
-        json.dump({"tar_parset": dstfile}, output)
+        json.dump({"cal_parset": dstfile}, output)
 
 outputs:
-  tar_parset: string
+  cal_parset: string
+
 
